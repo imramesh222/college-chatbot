@@ -125,3 +125,5 @@ data/
 !.gitkeep
 !README.md
 README.md
+chatbot/ml/model.pkl
+chatbot/ml/*.pkl
