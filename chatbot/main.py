@@ -1,7 +1,6 @@
-# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers.chatbot_routes import router as chatbot_router
+from .api.routers import include_routers  # Import include_routers if you want to use it
 from .settings import settings
 
 app = FastAPI(title="College Chatbot API")
@@ -14,8 +13,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chatbot_router, prefix="/api/v1")
+include_routers(app)  # Use this to include all routers
 
 @app.get("/")
 def read_root():
     return {"message": "College Chatbot API is running"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "chatbot.main:app",
+        host="0.0.0.0",
+        port=settings.SERVICE_PORT,
+        reload=settings.DEBUG,
+        loop="asyncio"
+    )
